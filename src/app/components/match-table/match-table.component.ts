@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import { MatchService } from '../../services/match/match.service';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [MatTableModule, CommonModule],
   templateUrl: './match-table.component.html',
-  styleUrl: './match-table.component.scss'
+  styleUrl: './match-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatchTableComponent {
   matchService = inject(MatchService);

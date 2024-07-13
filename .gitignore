@@ -43,3 +43,6 @@ Thumbs.db
 
 # Hosting
 .firebase
+
+# Enviroments config
+src/environments

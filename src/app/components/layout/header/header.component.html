@@ -1,0 +1,14 @@
+<header>
+    <mat-toolbar>
+        <!-- <button mat-icon-button class="example-icon">
+      <mat-icon>menu</mat-icon>
+    </button> -->
+        <button mat-button routerLink="/" class="!text-lg">
+            <mat-icon>sports_soccer</mat-icon>Zborka
+        </button>
+
+        <span class="spacer"></span>
+        <span class="text-base">{{ authService.userData()?.displayName }}</span>
+        <button mat-button (click)="logout()" class="!text-sm">logout</button>
+    </mat-toolbar>
+</header>
