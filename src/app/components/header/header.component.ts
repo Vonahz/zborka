@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: 'z-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+  styleUrls: ['./header.component.scss'],
   standalone: true,
   imports: [MatToolbarModule, MatButtonModule, MatIconModule],
 })
