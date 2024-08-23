@@ -1,17 +1,20 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { LoadingService } from './services/loading/loading.service';
 
 @Component({
-  selector: 'z-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'z-root',
+    standalone: true,
+    imports: [CommonModule, RouterOutlet, MatProgressBarModule],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  title = 'zborka';
+    title = 'Zborka';
+    loadingService = inject(LoadingService);
+
+    isLoading = this.loadingService.isLoading;
 }

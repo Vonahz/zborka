@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -8,7 +8,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   standalone: true,
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule]
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
 

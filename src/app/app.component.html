@@ -1,8 +1,7 @@
 <div class="w-full h-full flex flex-col overflow-hidden mat-app-background">
-  <z-header class="w-full flex-grow"></z-header>
-  <main role="main" class="flex-grow overflow-y-auto w-full">
+    @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    } @else {
     <router-outlet></router-outlet>
-  </main>
-  <z-footer class="w-full mt-auto">
-  </z-footer>
+    }
 </div>
