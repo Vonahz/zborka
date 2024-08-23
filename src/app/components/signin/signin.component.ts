@@ -20,9 +20,8 @@ export class SigninComponent {
 
     constructor() {
         this.afAuth.authState.subscribe((user) => {
-            console.log('user', user);
             if (user) {
-                this.router.navigate(['/']);
+                this.router.navigate(['']);
             }
         });
     }

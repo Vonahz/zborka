@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { CanActivate, CanActivateChild } from '@angular/router';
+import { CanActivate, CanActivateChild, Router } from '@angular/router';
 import { finalize, map, Observable } from 'rxjs';
 import { LoadingService } from '../services/loading/loading.service';
 
@@ -10,6 +10,7 @@ import { LoadingService } from '../services/loading/loading.service';
 export class AuthGuard implements CanActivate, CanActivateChild {
     fireAuth = inject(AngularFireAuth);
     loadingService = inject(LoadingService);
+    router = inject(Router);
 
     canActivate(): Observable<boolean> {
         return this.checkIfUserIsLoggedIn();
@@ -26,6 +27,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                 if (user) {
                     return true; // User is authenticated, allow access
                 } else {
+                    this.router.navigate(['/login']);
+
                     // Delay navigation until auth state is fully resolved
                     return false;
                 }
