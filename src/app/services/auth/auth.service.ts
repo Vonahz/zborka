@@ -1,49 +1,45 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { doc, DocumentReference, Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
+import { UserService } from '../user/user.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+    firestore = inject(Firestore);
     router = inject(Router);
     fireAuth = inject(AngularFireAuth);
     document = inject(DOCUMENT);
+    userService = inject(UserService);
 
-    userData = signal<firebase.User | null>(null);
-    isLoggedIn = computed(() => !!this.userData());
+    public userData = signal<firebase.User | null>(null);
+    public isLoggedIn = computed(() => !!this.userData());
 
     constructor() {
         this.fireAuth.onAuthStateChanged((user) => {
             if (user) {
                 this.userData.set(user);
             } else {
-                this.userData.set(null);
-            }
-        });
-
-        const localStorage = this.document.defaultView?.localStorage;
-        if (localStorage) {
-            if (localStorage.getItem('user') && !this.userData()) {
-                const user = JSON.parse(localStorage.getItem('user') || '');
                 this.userData.set(user);
             }
-
-            effect(() => {
-                localStorage.setItem('user', JSON.stringify(this.userData()));
-            });
-        }
+        });
     }
 
     login(creds: firebase.auth.UserCredential) {
-        this.userData.set(creds.user);
+        this.userService.addUser(creds);
         this.router.navigate(['/']);
     }
 
     logout() {
         this.router.navigate(['/login']);
         this.fireAuth.signOut();
+    }
+
+    getCurrentUserDocRef(): DocumentReference {
+        return doc(this.firestore, `users/${this.userData()?.uid}`);
     }
 }

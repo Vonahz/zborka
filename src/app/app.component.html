@@ -1,3 +1,7 @@
 <div class="w-full h-full flex flex-col overflow-hidden mat-app-background">
-  <router-outlet></router-outlet>
+    @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    } @else {
+    <router-outlet></router-outlet>
+    }
 </div>
