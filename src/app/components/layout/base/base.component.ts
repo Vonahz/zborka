@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router, RouterOutlet } from '@angular/router';
-import { LoadingService } from '../../../services/loading/loading.service';
+import { RouterOutlet } from '@angular/router';
+import { AuthService } from '../../../services/auth/auth.service';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 
@@ -14,17 +13,6 @@ import { HeaderComponent } from '../header/header.component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseComponent {
-    loadingService = inject(LoadingService);
-    afAuth = inject(AngularFireAuth);
-    router = inject(Router);
-
-    isLoading = this.loadingService.isLoading;
-
-    ngOnInit(): void {
-        this.afAuth.authState.subscribe((user) => {
-            if (!user) {
-                this.router.navigate(['/login']);
-            }
-        });
-    }
+    authService = inject(AuthService);
+    userIsLogged = this.authService.isLoggedIn;
 }

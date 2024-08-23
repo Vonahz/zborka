@@ -24,14 +24,14 @@ export class AuthService {
             if (user) {
                 this.userData.set(user);
             } else {
-                this.userData.set(user);
+                this.userData.set(null);
             }
         });
     }
 
     login(creds: firebase.auth.UserCredential) {
         this.userService.addUser(creds);
-        this.router.navigate(['/']);
+        this.router.navigate(['']);
     }
 
     logout() {
