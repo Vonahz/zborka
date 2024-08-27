@@ -1,39 +1,97 @@
 <mat-accordion class="example-headers-align">
-    @for(matchData of (matchData$ | async); track matchData.match.id) {
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>{{ matchData.match.name }} </mat-panel-title>
-            <mat-panel-description>
-                {{ matchData.players.length }}/{{
-                    matchData.match.maxTeamPlayers * 2
-                }}
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <table
-            mat-table
-            [dataSource]="matchData.players"
-            class="mat-elevation-z8"
-        >
-            <ng-container matColumnDef="no">
-                <th mat-header-cell *matHeaderCellDef>No.</th>
-                <td mat-cell *matCellDef="let element">{{ element.no }}</td>
-            </ng-container>
+    @for (matchData of matchData$ | async; track matchData.match.id) {
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ matchData.match.name }}</mat-panel-title>
+                <mat-panel-description>
+                    {{ matchData.players.length }}/{{
+                        matchData.match.maxTeamPlayers * 2
+                    }}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <table
+                mat-table
+                [dataSource]="matchData.players"
+                class="mat-elevation-z8"
+            >
+                <ng-container matColumnDef="no">
+                    <th mat-header-cell *matHeaderCellDef>No.</th>
+                    <td mat-cell *matCellDef="let element">{{ element.no }}</td>
+                </ng-container>
 
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let element">
-                    {{ element.name }}
-                </td>
-            </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.name }}
+                    </td>
+                </ng-container>
 
-            <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef>Action</th>
-                <td mat-cell *matCellDef="let element">{{ element.action }}</td>
-            </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let element">
+                        <!-- Player createad the match -->
+                        @if (
+                            currrentUserId === matchData.match.createdByRef.id
+                        ) {
+                            <button
+                                mat-button
+                                (click)="removePlayer(element.id)"
+                            >
+                                {{
+                                    currrentUserId === element.userRef?.id
+                                        ? 'Leave'
+                                        : 'Remove'
+                                }}
+                            </button>
+                        } @else {
+                            <!-- Player joined the match -->
+                            @if (
+                                element.userRef &&
+                                element.userRef.id === currrentUserId
+                            ) {
+                                <button
+                                    mat-button
+                                    (click)="removePlayer(element.id)"
+                                >
+                                    Leave
+                                </button>
+                            }
+                            <!-- Player added player to the match -->
+                            @if (
+                                element.addedByRef &&
+                                element.addedByRef.id === currrentUserId
+                            ) {
+                                <button
+                                    mat-button
+                                    (click)="removePlayer(element.id)"
+                                >
+                                    Remove
+                                </button>
+                            }
+                        }
+                    </td>
+                </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-    </mat-expansion-panel>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+            </table>
+            <mat-action-row>
+                @if (!userAlreadyJoined(matchData.players)) {
+                    <button mat-button (click)="joinMatch(matchData.match.id)">
+                        Join Match
+                    </button>
+                    /
+                }
+                <button
+                    mat-button
+                    (click)="openAddPlayerDialog(matchData.match.id)"
+                >
+                    Add Player
+                </button>
+            </mat-action-row>
+        </mat-expansion-panel>
     }
 </mat-accordion>

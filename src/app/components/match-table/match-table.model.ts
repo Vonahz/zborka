@@ -6,7 +6,10 @@ export interface MatchData {
 }
 
 export interface MatchPlayer {
+    id: string;
     no: number;
     name: string;
     userRef: DocumentReference | null;
+    addedByRef: DocumentReference | null;
+    added: boolean;
 }

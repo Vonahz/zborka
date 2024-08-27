@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import {
+    addDoc,
     collection,
+    deleteDoc,
     doc,
     DocumentReference,
     Firestore,
@@ -29,6 +31,12 @@ export interface UnregisteredPlayer extends BasePlayer {
 
 export type Player = RegisteredPlayer | UnregisteredPlayer;
 
+export interface PlayerDocData {
+    id: string;
+    data: Player;
+    docRef: DocumentReference;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -52,6 +60,29 @@ export class PlayerService {
         );
     }
 
+    async addPlayer(matchId: string, playerName: string) {
+        try {
+            const docData: UnregisteredPlayer = {
+                addedByRef: this.currentUserRef,
+                matchRef: doc(this.firestore, `matches/${matchId}`),
+                name: playerName
+            };
+            const docRef = await addDoc(this.playerCollection, docData);
+            return docRef.id;
+        } catch (e) {
+            console.error('Error adding player');
+            return null;
+        }
+    }
+
+    async removePlayer(playerDocId: string) {
+        try {
+            const docRef = doc(this.firestore, `players/${playerDocId}`);
+            await deleteDoc(docRef);
+        } catch (e) {
+            console.error('Error deleting player');
+        }
+    }
     getCurrentPlayerMatches(): Observable<Match[]> {
         return this.getPlayersByUserRef().pipe(
             switchMap((matchRefs) => {
@@ -78,7 +109,7 @@ export class PlayerService {
         );
     }
 
-    getMatchPlayers(matchId: string): Observable<Player[]> {
+    getMatchPlayers(matchId: string): Observable<PlayerDocData[]> {
         // Convert the matchId string into a DocumentReference
         const matchRef = doc(this.firestore, `matches/${matchId}`);
 
@@ -89,9 +120,11 @@ export class PlayerService {
 
         return from(getDocs(matchQuery)).pipe(
             map((snapshot) => {
-                const players = snapshot.docs.map(
-                    (doc) => doc.data() as Player
-                );
+                const players = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data() as Player,
+                    docRef: doc.ref
+                }));
                 return players;
             })
         );
