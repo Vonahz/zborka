@@ -74,14 +74,12 @@ export class UserService {
         return null;
     }
 
-    async getUserNameByRef(
-        userRef: DocumentReference<User>
-    ): Promise<string | null> {
+    async getUserNameByRef(userRef: DocumentReference): Promise<string | null> {
         try {
             let userName: string | null = null;
             const docSnap = await getDoc(userRef);
             if (docSnap.exists()) {
-                userName = docSnap.data().displayName;
+                userName = docSnap.data()['displayName'];
             }
             return userName;
         } catch (e) {

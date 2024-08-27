@@ -1,6 +1,8 @@
 <div class="w-full flex flex-wrap">
     <div class="flex-1 w-50 mx-9">
-        <button mat-raised-button class="ml-5">Create match</button>
+        <button mat-raised-button class="ml-5" (click)="createMatch()">
+            Create match
+        </button>
         <button mat-raised-button class="ml-5">Join match</button>
 
         <z-match-table />
