@@ -1,1 +1,41 @@
-<p>create-match-dialog works!</p>
+<mat-dialog-content class="text-center">
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Place</mat-label>
+        <input matInput />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Starting</mat-label>
+        <input matInput [matDatepicker]="picker">
+<mat-hint>MM/DD/YYYY</mat-hint>
+<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+<mat-datepicker #picker></mat-datepicker>
+        <input matInput [matTimepicker]="picker">
+<mat-timepicker-toggle matIconSuffix [for]="picker"/>
+<mat-timepicker #picker/>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Select</mat-label>
+        <mat-select>
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Additional info</mat-label>
+        <textarea matInput></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button (click)="onOk()">Ok</button>
+</mat-dialog-actions>
+this.matchService.createMatch({
+    //     maxTeamPlayers: 6,
+    //     startingTime: new Date(),
+    //     place: new GeoPoint(80, 80),
+    //     name: 'random' + Math.random()
+    // });

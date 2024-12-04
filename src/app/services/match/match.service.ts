@@ -7,6 +7,7 @@ import {
     GeoPoint,
     getDocs,
     query,
+    Timestamp,
     updateDoc,
     where
 } from '@angular/fire/firestore';
@@ -18,7 +19,7 @@ export interface Match {
     id: string;
     maxTeamPlayers: number;
     place: GeoPoint;
-    startingTime: Date;
+    startingTime: Timestamp;
     createdByRef: DocumentReference<User>;
     name: string;
 }
@@ -33,7 +34,7 @@ export class MatchService {
 
     matchCollection = collection(this.firestore, 'matches');
 
-    addMatch(match: Partial<Match>) {
+    createMatch(match: Partial<Match>) {
         return from(addDoc(this.matchCollection, match))
             .pipe(
                 take(1),

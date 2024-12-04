@@ -1,4 +1,4 @@
-<mat-accordion class="example-headers-align">
+<mat-accordion>
     @for (matchData of matchData$ | async; track matchData.match.id) {
         <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -9,6 +9,9 @@
                     }}
                 </mat-panel-description>
             </mat-expansion-panel-header>
+
+            <z-match-header-card [match]="matchData.match" />
+
             <table
                 mat-table
                 [dataSource]="matchData.players"

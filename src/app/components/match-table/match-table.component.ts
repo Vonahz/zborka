@@ -4,7 +4,6 @@ import { DocumentReference } from '@angular/fire/firestore';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import {
     catchError,
+    finalize,
     forkJoin,
     map,
     mergeMap,
@@ -21,6 +21,8 @@ import {
     switchMap
 } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
+import { DialogService } from '../../services/core/dialog.service';
+import { LoadingService } from '../../services/loading/loading.service';
 import { MatchService } from '../../services/match/match.service';
 import {
     PlayerDocData,
@@ -30,6 +32,7 @@ import {
 } from '../../services/player/player.service';
 import { UserService } from '../../services/user/user.service';
 import { AddPlayerDialogComponent } from './add-player-dialog/add-player-dialog.component';
+import { MatchHeaderCardComponent } from './match-header-card/match-header-card.component';
 import { MatchPlayer } from './match-table.model';
 
 @Component({
@@ -44,7 +47,8 @@ import { MatchPlayer } from './match-table.model';
         MatInputModule,
         MatButtonModule,
         MatDatepickerModule,
-        AddPlayerDialogComponent
+        AddPlayerDialogComponent,
+        MatchHeaderCardComponent
     ],
     templateUrl: './match-table.component.html',
     styleUrl: './match-table.component.scss',
@@ -56,8 +60,9 @@ export class MatchTableComponent {
     playerService = inject(PlayerService);
     userService = inject(UserService);
     authService = inject(AuthService);
+    loadingService = inject(LoadingService);
 
-    readonly dialog = inject(MatDialog);
+    readonly dialog = inject(DialogService);
 
     displayedColumns: string[] = ['no', 'name', 'action'];
 
@@ -123,7 +128,7 @@ export class MatchTableComponent {
         const dialogRef = this.dialog.open(AddPlayerDialogComponent);
 
         dialogRef.afterClosed().subscribe((result) => {
-            if (result.confirmed) {
+            if (result?.confirmed) {
                 this.playerService.addPlayer(matchId, result.name).then(() => {
                     this.refreshMatchData();
                 });
@@ -132,6 +137,7 @@ export class MatchTableComponent {
     }
 
     private refreshMatchData() {
+        this.loadingService.setLoading(true);
         this.refresh$.next();
     }
 
@@ -161,6 +167,7 @@ export class MatchTableComponent {
                 );
                 // Use forkJoin to combine all the observables into a single observable
                 return forkJoin(matchObservables).pipe(
+                    finalize(() => this.loadingService.setLoading(false)),
                     catchError(() => of([])) // Handle errors for the whole forkJoin
                 );
             })
