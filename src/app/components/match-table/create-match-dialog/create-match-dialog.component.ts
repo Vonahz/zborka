@@ -14,6 +14,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 
+export interface createMatchData {
+    name: string;
+    maxPlayers: number;
+    place: string;
+    startingTime: string;
+    additionalInfo: string;
+    // this.matchService.createMatch({
+    //     maxTeamPlayers: 6,
+    //     startingTime: new Date(),
+    //     place: new GeoPoint(80, 80),
+    //     name: 'random' + Math.random()
+    // });
+}
+
 @Component({
     selector: 'z-create-match-dialog',
     imports: [
