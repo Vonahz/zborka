@@ -7,7 +7,6 @@ import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
     selector: 'z-signin',
-    standalone: true,
     imports: [MatButtonModule, GoogleSsoDirective],
     templateUrl: './signin.component.html',
     styleUrl: './signin.component.scss',

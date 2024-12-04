@@ -6,7 +6,6 @@ import { HeaderComponent } from '../header/header.component';
 
 @Component({
     selector: 'z-base',
-    standalone: true,
     imports: [HeaderComponent, FooterComponent, RouterOutlet],
     templateUrl: './base.component.html',
     styleUrl: './base.component.scss',

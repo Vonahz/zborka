@@ -14,7 +14,6 @@ import { AuthService } from '../../../services/auth/auth.service';
     selector: 'z-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    standalone: true,
     imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

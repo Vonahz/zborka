@@ -22,8 +22,7 @@ import { MatchService } from '../../services/match/match.service';
         MatButtonModule,
         StatsComponent,
         PrevMatchComponent
-    ],
-    standalone: true
+    ]
 })
 export class HomeComponent implements OnInit {
     matchService = inject(MatchService);

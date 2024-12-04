@@ -3,7 +3,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'z-google-map',
-    standalone: true,
     imports: [],
     templateUrl: './google-map.component.html',
     styleUrl: './google-map.component.scss'

@@ -16,7 +16,6 @@ import { MatTimepickerModule } from '@angular/material/timepicker';
 
 @Component({
     selector: 'z-create-match-dialog',
-    standalone: true,
     imports: [
         MatButtonModule,
         MatDialogActions,

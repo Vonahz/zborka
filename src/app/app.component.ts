@@ -6,7 +6,6 @@ import { LoadingService } from './services/loading/loading.service';
 
 @Component({
     selector: 'z-root',
-    standalone: true,
     imports: [CommonModule, RouterOutlet, MatProgressBarModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',

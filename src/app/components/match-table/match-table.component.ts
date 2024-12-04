@@ -37,7 +37,6 @@ import { MatchPlayer } from './match-table.model';
 
 @Component({
     selector: 'z-match-table',
-    standalone: true,
     imports: [
         MatTableModule,
         CommonModule,

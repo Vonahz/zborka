@@ -4,12 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'z-footer',
-  standalone: true,
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'z-footer',
+    templateUrl: './footer.component.html',
+    styleUrl: './footer.component.scss',
+    imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
 

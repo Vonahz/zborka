@@ -15,7 +15,6 @@ import { PlayerService } from '../../../services/player/player.service';
 
 @Component({
     selector: 'z-add-player-dialog',
-    standalone: true,
     imports: [
         MatButtonModule,
         MatDialogActions,

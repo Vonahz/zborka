@@ -10,7 +10,6 @@ import { GoogleMapComponent } from '../../google-map/google-map.component';
 
 @Component({
     selector: 'z-match-header-card',
-    standalone: true,
     imports: [
         MatCardModule,
         MatButtonModule,
